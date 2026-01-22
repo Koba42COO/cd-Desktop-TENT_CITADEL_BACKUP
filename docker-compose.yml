@@ -1,0 +1,57 @@
+# TENT Citadel v5.0 - Docker Compose
+# The Sovereign Stack: Brain, Voice, Memory, Governance
+
+version: '3.8'
+
+services:
+  # Main TENT Application
+  tent-citadel:
+    build: .
+    container_name: tent-citadel
+    ports:
+      - "8501:8501"
+    volumes:
+      - ./hippocampus:/app/hippocampus
+      - ./citadel/models:/app/citadel/models
+      - ./citadel/library:/app/citadel/library
+      - ./citadel/ingest:/app/citadel/ingest
+      - ./universal_prime_graph.json:/app/universal_prime_graph.json
+    environment:
+      - PYTHONUNBUFFERED=1
+    restart: unless-stopped
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8501/_stcore/health" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Legal Research Daemon (background worker)
+  legal-daemon:
+    build: .
+    container_name: tent-legal-daemon
+    command: [ "python", "legal_daemon.py" ]
+    volumes:
+      - ./hippocampus:/app/hippocampus
+      - ./universal_prime_graph.json:/app/universal_prime_graph.json
+    environment:
+      - PYTHONUNBUFFERED=1
+    restart: unless-stopped
+    depends_on:
+      - tent-citadel
+
+  # Kiwix Server (Offline Wikipedia)
+  kiwix:
+    image: kiwix/kiwix-serve:latest
+    container_name: tent-kiwix
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./citadel/library:/data
+    command: [ "*.zim" ]
+    restart: unless-stopped
+
+volumes:
+  hippocampus:
+  models:
+  library:
+  ingest:
