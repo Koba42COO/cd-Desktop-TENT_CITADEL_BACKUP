@@ -1,0 +1,22 @@
+# TENT Citadel - Ignore large files for GitHub
+*.gguf
+*.zim
+*.aiff
+*.wav
+*.mp3
+*.png
+*.jpg
+*.img
+__pycache__/
+*.pyc
+.DS_Store
+*.log
+hippocampus/
+*.sqlite
+*.db
+node_modules/
+venv/
+.env
+*.resolved
+*.resolved.*
+*.metadata.json
