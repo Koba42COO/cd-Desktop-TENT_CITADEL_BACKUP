@@ -22,7 +22,7 @@ except ImportError as e:
     SKELETON_MODE = True
 
 print("="*60)
-print("🏰 CITADEL OS v5.0: SYSTEM STARTUP")
+print("🏰 CITADEL OS v5.1: SYSTEM STARTUP")
 print("   HARDWARE: Apple M3 Max (Detected)")
 print("   STATUS: SOVEREIGN")
 print("="*60)
