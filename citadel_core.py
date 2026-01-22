@@ -17,6 +17,7 @@ try:
     from modules import citadel_bridge # The Library (Kiwix)
     from modules import constitution   # The Law
     from modules import tool_belt      # The Hands (Phase 301)
+    from modules import physics_daemon # The Calculator (Phase 302)
     SKELETON_MODE = False
 except ImportError as e:
     print(f"⚠️  WARNING: Sub-systems not found ({e}). Running in SKELETON MODE.")
