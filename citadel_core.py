@@ -16,6 +16,7 @@ try:
     from modules import event_horizon  # The Prism (YouTube)
     from modules import citadel_bridge # The Library (Kiwix)
     from modules import constitution   # The Law
+    from modules import tool_belt      # The Hands (Phase 301)
     SKELETON_MODE = False
 except ImportError as e:
     print(f"⚠️  WARNING: Sub-systems not found ({e}). Running in SKELETON MODE.")
@@ -82,8 +83,25 @@ def main_loop():
                     response = "Ingestion complete."
                 else:
                     response = brain.think(user_input)
+            
+            # --- AGENCY LOOP (Start of Phase 301) ---
+            if "<execute>" in response:
+                import re
+                print("   🛠️  DETECTED TOOL USE REQUEST.")
+                
+                # Extract code between tags
+                code_match = re.search(r'<execute>(.*?)</execute>', response, re.DOTALL)
+                if code_match:
+                    code_to_run = code_match.group(1).strip()
+                    tool_output = tool_belt.execute_python(code_to_run)
+                    
+                    # Feed the result back to the Brain
+                    follow_up_prompt = f"Using this tool output, answer the user: {tool_output}"
+                    response = brain.think(follow_up_prompt)
+            # ----------------------------------------
 
             print(f"   TENT: {response}")
+
 
         except KeyboardInterrupt:
             print("\n   SYSTEM HALT. SAVING STATE...")
