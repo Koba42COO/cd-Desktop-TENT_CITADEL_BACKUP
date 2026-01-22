@@ -74,8 +74,12 @@ def main_loop():
             if citadel_bridge.is_offline():
                 # We are Dark. Use Kiwix + Local Brain.
                 print("   [OFFLINE MODE]")
-                context = citadel_bridge.search_kiwix(user_input)
-                response = brain.think(user_input, context)
+                print("   [OFFLINE MODE]")
+                kiwix_context = citadel_bridge.search_kiwix(user_input)
+                physics_context = citadel_bridge.search_physics_library(user_input)
+                
+                full_context = f"{kiwix_context}\n\n{physics_context}"
+                response = brain.think(user_input, full_context)
             else:
                 # We are Live. We can use tools.
                 if "ingest" in user_input.lower():

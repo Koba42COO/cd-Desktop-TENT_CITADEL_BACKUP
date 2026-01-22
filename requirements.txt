@@ -23,6 +23,7 @@ youtube-transcript-api>=0.6.0
 
 # Text Processing
 tiktoken>=0.5.0
+pypdf>=3.17.0
 
 # Optional: GPU acceleration
 # torch>=2.0.0
